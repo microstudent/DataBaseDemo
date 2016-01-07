@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgv_s = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tb_sumFinal = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tb_count = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -51,13 +51,17 @@
             this.bt_bill = new System.Windows.Forms.Button();
             this.bt_delOne = new System.Windows.Forms.Button();
             this.bt_delAll = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.bt_vip = new System.Windows.Forms.Button();
             this.bt_exit = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
+            this.bt_logout = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabel_username = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusLabel_time = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_s)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv_s
@@ -107,15 +111,6 @@
             this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "合计 :";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(746, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "收银员：";
             // 
             // panel2
             // 
@@ -281,14 +276,15 @@
             this.bt_delAll.UseVisualStyleBackColor = true;
             this.bt_delAll.Click += new System.EventHandler(this.bt_delAll_Click);
             // 
-            // button4
+            // bt_vip
             // 
-            this.button4.Location = new System.Drawing.Point(667, 210);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(210, 23);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "刷会员卡 F4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.bt_vip.Location = new System.Drawing.Point(667, 210);
+            this.bt_vip.Name = "bt_vip";
+            this.bt_vip.Size = new System.Drawing.Size(210, 23);
+            this.bt_vip.TabIndex = 11;
+            this.bt_vip.Text = "刷会员卡 F4";
+            this.bt_vip.UseVisualStyleBackColor = true;
+            this.bt_vip.Click += new System.EventHandler(this.bt_vip_Click);
             // 
             // bt_exit
             // 
@@ -300,40 +296,59 @@
             this.bt_exit.UseVisualStyleBackColor = true;
             this.bt_exit.Click += new System.EventHandler(this.bt_exit_Click);
             // 
-            // button6
+            // bt_logout
             // 
-            this.button6.Location = new System.Drawing.Point(667, 372);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(210, 23);
-            this.button6.TabIndex = 13;
-            this.button6.Text = "锁定系统  F12";
-            this.button6.UseVisualStyleBackColor = true;
+            this.bt_logout.Location = new System.Drawing.Point(667, 372);
+            this.bt_logout.Name = "bt_logout";
+            this.bt_logout.Size = new System.Drawing.Size(210, 23);
+            this.bt_logout.TabIndex = 13;
+            this.bt_logout.Text = "锁定系统  F12";
+            this.bt_logout.UseVisualStyleBackColor = true;
+            this.bt_logout.Click += new System.EventHandler(this.bt_logout_Click);
             // 
-            // label10
+            // statusStrip1
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(805, 9);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(35, 12);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "admin";
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel_username,
+            this.statusLabel_time});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 460);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(889, 22);
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusLabel_username
+            // 
+            this.statusLabel_username.Name = "statusLabel_username";
+            this.statusLabel_username.Size = new System.Drawing.Size(56, 17);
+            this.statusLabel_username.Text = "收银员：";
+            // 
+            // statusLabel_time
+            // 
+            this.statusLabel_time.Name = "statusLabel_time";
+            this.statusLabel_time.Size = new System.Drawing.Size(0, 17);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // PosForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 482);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.bt_logout);
             this.Controls.Add(this.bt_exit);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.bt_vip);
             this.Controls.Add(this.bt_delAll);
             this.Controls.Add(this.bt_delOne);
             this.Controls.Add(this.bt_bill);
             this.Controls.Add(this.tb_s_code);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgv_s);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -348,6 +363,8 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -359,7 +376,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox tb_sumFinal;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox tb_changed;
         private System.Windows.Forms.Label label7;
@@ -378,9 +394,13 @@
         private System.Windows.Forms.Button bt_bill;
         private System.Windows.Forms.Button bt_delOne;
         private System.Windows.Forms.Button bt_delAll;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button bt_vip;
         private System.Windows.Forms.Button bt_exit;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button bt_logout;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel_username;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel_time;
+        private System.Windows.Forms.Timer timer1;
     }
 }

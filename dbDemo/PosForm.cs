@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,10 +15,11 @@ namespace dbDemo
     {
         PosManager manager;
 
-        public PosForm()
+        public PosForm(string username)
         {
             InitializeComponent();
             init();
+            statusLabel_username.Text += username;
         }
 
         private void init()
@@ -59,9 +61,11 @@ namespace dbDemo
                     break;
                 case Keys.F12:
                     //锁定系统
+                    bt_logout.PerformClick();
                     break;
                 case Keys.F4:
                     //刷会员卡
+                    bt_vip.PerformClick();
                     break;
                 case Keys.Escape:
                     bt_exit.PerformClick();
@@ -76,7 +80,7 @@ namespace dbDemo
             if(billform.ShowDialog() == DialogResult.OK)
             {
                 //TODO
-                manager.settle(billform.charged,Convert.ToDecimal(tb_sumFinal.Text));
+                manager.settle(billform.charged);
             }
         }
 
@@ -133,6 +137,34 @@ namespace dbDemo
         private void PosForm_Activated(object sender, EventArgs e)
         {
             tb_s_code.Focus();
+        }
+
+        private void bt_vip_Click(object sender, EventArgs e)
+        {
+            VipForm vipForm = new VipForm();
+            DialogResult result = vipForm.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                if (!manager.enterVipMode(vipForm.vipCode))
+                {
+                    MessageBox.Show("会员卡号输入错误，请检查后重试!", "错误");
+                }
+            }
+        }
+
+        private void bt_logout_Click(object sender, EventArgs e)
+        {
+            Thread ShowMainThread = new Thread(
+            new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PosLoginForm()); }));
+            ShowMainThread.SetApartmentState(ApartmentState.STA);
+            ShowMainThread.Start();
+            this.Close();
+            this.Dispose();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            statusLabel_time.Text = DateTime.Now.ToString();
         }
     }
 }

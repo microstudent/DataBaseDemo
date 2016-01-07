@@ -16,8 +16,13 @@ namespace dbDemo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new LoginForm());
-            Application.Run(new PosForm());
+
+            Application.Run(new PosLoginForm());
+            //Application.Run(new PosForm());
+            //Application.Run(new InputForm());
+            //Application.Run(new SupplierForm());
+            //Application.Run(new CommodityForm());
+
         }
     }
 }

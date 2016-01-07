@@ -1,6 +1,6 @@
 ﻿namespace dbDemo
 {
-    partial class LoginForm
+    partial class PosLoginForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -37,6 +37,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_userName = new System.Windows.Forms.TextBox();
+            this.rb_cashier = new System.Windows.Forms.RadioButton();
+            this.rb_input = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -124,11 +128,45 @@
             this.tb_userName.TabIndex = 1;
             this.tb_userName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_userName_KeyDown);
             // 
+            // rb_cashier
+            // 
+            this.rb_cashier.AutoSize = true;
+            this.rb_cashier.Checked = true;
+            this.rb_cashier.Location = new System.Drawing.Point(28, 20);
+            this.rb_cashier.Name = "rb_cashier";
+            this.rb_cashier.Size = new System.Drawing.Size(71, 16);
+            this.rb_cashier.TabIndex = 9;
+            this.rb_cashier.TabStop = true;
+            this.rb_cashier.Text = "收银系统";
+            this.rb_cashier.UseVisualStyleBackColor = true;
+            // 
+            // rb_input
+            // 
+            this.rb_input.AutoSize = true;
+            this.rb_input.Location = new System.Drawing.Point(205, 20);
+            this.rb_input.Name = "rb_input";
+            this.rb_input.Size = new System.Drawing.Size(71, 16);
+            this.rb_input.TabIndex = 10;
+            this.rb_input.Text = "录入系统";
+            this.rb_input.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rb_cashier);
+            this.groupBox1.Controls.Add(this.rb_input);
+            this.groupBox1.Location = new System.Drawing.Point(55, 229);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(296, 48);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "功能选择";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(413, 345);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.bt_exit);
             this.Controls.Add(this.bt_login);
@@ -142,7 +180,9 @@
             this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "POS系统登录窗口";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,6 +198,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_userName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton rb_cashier;
+        private System.Windows.Forms.RadioButton rb_input;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

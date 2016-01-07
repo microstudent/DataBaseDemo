@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace dbDemo
 {
-    public partial class LoginForm : Form
+    public partial class PosLoginForm : Form
     {
 
-        public LoginForm()
+        public PosLoginForm()
         {
             InitializeComponent();
             init();            
@@ -48,7 +49,7 @@ namespace dbDemo
                 {
                     connection.ConnectionString = sqlbuilder.ConnectionString;
                     connection.Open();
-                }catch(Exception ex)
+                }catch(Exception e)
                 {
                     MessageBox.Show("连接至服务器失败，请检查连接.", "连接错误");
                 }
@@ -66,11 +67,10 @@ namespace dbDemo
                 builder.Append("@users_name ");
                 builder.Append("and users_password = ");
                 builder.Append("@users_pw");
-
                 SqlParameter para1 = new SqlParameter("@users_name",SqlDbType.Char);
                 SqlParameter para2 = new SqlParameter("@users_pw", SqlDbType.Char);
 
-                para1.Value = tb_userName.Text;
+                para1.Value = username;
                 para2.Value = md5Pw;
 
                 SqlCommand cmd = new SqlCommand(builder.ToString(), connection);
@@ -80,7 +80,27 @@ namespace dbDemo
 
                 if (null != cmd.ExecuteScalar())
                 {
-                    MessageBox.Show("登录成功", "成功");
+                    //TODO 检查身份
+                    if (rb_cashier.Checked)
+                    {
+                        Thread ShowMainThread = new Thread(
+                        new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PosForm(username)); }));
+                        ShowMainThread.SetApartmentState(ApartmentState.STA);
+                        ShowMainThread.Start();
+                        this.Close();
+                        this.Dispose();
+                    }
+                    else
+                    {
+                        //启动录入系统
+                        Thread ShowMainThread = new Thread(
+                              new ThreadStart(delegate { System.Windows.Forms.Application.Run(new InputForm(username)); }));
+                        ShowMainThread.SetApartmentState(ApartmentState.STA);
+                        ShowMainThread.Start();
+                        this.Close();
+                        this.Dispose();
+                    }
+
                 }
                 else
                 {

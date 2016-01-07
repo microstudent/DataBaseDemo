@@ -18,13 +18,16 @@ namespace dbDemo
         public delegate void BillUpEventHandler(Object sender, BillUpEventArgs e);
         public event BillUpEventHandler BillUp;
 
-        int sum = 0;        //当前的合计金额合计
+        decimal sumFinal = 0;        //当前的合计金额合计
         int count = 0;      //当前的商品的数量合计
         DataTable dt;   //当前的商品清单
-        SqlDataAdapter tradeDataAdapter,saleDataAdapter;
+        SqlDataAdapter tradeDataAdapter,saleDataAdapter,vipDataAdapter;
         DataSet dataset;    //内存中的临时数据库
 
         private bool isVipMode = false;
+        private string vipCode;
+
+        private bool isBillUp = true;
 
         //构造函数
         public PosManager(TextBox tb_sum,TextBox tb_count,DataGridView dgv)
@@ -32,8 +35,6 @@ namespace dbDemo
             dt = new DataTable();
             dataset = new DataSet();
             //数据绑定
-            tb_sum.DataBindings.Add("Text", sum, null);
-            tb_count.DataBindings.Add("Text", count, null);
             dgv.DataSource = dt;
 
             connectToServer();
@@ -54,11 +55,9 @@ namespace dbDemo
             {
                 conn.Open();
 
-                StringBuilder builder = new StringBuilder();
-                builder.Append("SELECT * FROM view_commodity_cashier;");
-
                 tradeDataAdapter = new SqlDataAdapter("SELECT * FROM tb_trade", conn);
                 saleDataAdapter = new SqlDataAdapter("SELECT * FROM tb_sale", conn);
+                vipDataAdapter = new SqlDataAdapter("SELECT * FROM tb_vip", conn);
                 //先获取所有商品信息填充到dataset去
                 SqlCommand cmd = new SqlCommand("SELECT * FROM view_commodity_cashier", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -75,9 +74,12 @@ namespace dbDemo
                 //获取tb_sale表
                 saleDataAdapter.Fill(dataset, "sale");
 
+                //获取tb_vip表
+                vipDataAdapter.Fill(dataset, "vip");
+
+                StringBuilder builder = new StringBuilder();
                 //获取当前的购物表模式
                 //拼接select语句
-                builder.Clear();
                 builder.Append("SELECT ");
                 builder.Append("tb_commodity.s_code 条形码, ");
                 builder.Append("tb_commodity.s_name 商品名, ");
@@ -91,6 +93,7 @@ namespace dbDemo
 
                 SqlCommandBuilder cmdBuilder1 = new SqlCommandBuilder(tradeDataAdapter);
                 SqlCommandBuilder cmdBuilder2 = new SqlCommandBuilder(saleDataAdapter);
+                SqlCommandBuilder cmdBuilder3 = new SqlCommandBuilder(vipDataAdapter);
 
             }
             catch (Exception e)
@@ -113,6 +116,20 @@ namespace dbDemo
             }
         }
 
+        internal bool enterVipMode(string vipCode)
+        {
+            DataTable tb_vip = dataset.Tables["vip"];
+            DataRow[] rows =  tb_vip.Select("vip_code = '" + vipCode + "'");
+            if (rows.Count() == 1)
+            {
+                this.vipCode = vipCode;
+                this.isVipMode = true;
+                return true;
+            }
+            else
+                return false;
+        }
+
         public class DataChangedEventArgs : EventArgs
         {
             public readonly string billSum,Fav,billFinal;
@@ -124,7 +141,7 @@ namespace dbDemo
             }
         }
         //通知已经完成结账操作
-        private void onBillUpFinish(decimal charged,decimal sumFinal)
+        private void onBillUpFinish(decimal charged)
         {
             decimal  changeSum;
             changeSum = charged - sumFinal;
@@ -138,7 +155,7 @@ namespace dbDemo
         {
             if (dataChanged != null)
             {
-                decimal sum, fav, sumFinal;
+                decimal sum, fav;
                 if (isVipMode)
                 {
                     sum = 0;
@@ -166,6 +183,11 @@ namespace dbDemo
 
         public bool addToShopList(string code)
         {
+            if (isBillUp)
+            {
+                deleteAll();
+                isBillUp = false;
+            }
             Regex reg = new Regex(@"(\d*)\+(\d*)");
             Match mat = reg.Match(code);
             if (mat.Groups.Count == 1)
@@ -206,27 +228,72 @@ namespace dbDemo
             return true;
         }
 
-        public void settle(decimal chargedSum,decimal sumFinal)
+        public void settle(decimal chargedSum)
         {
             //和数据库合并
-            combineToDataset(chargedSum);
-            onBillUpFinish(chargedSum, sumFinal);
+            combineToDataset();
+            onBillUpFinish(chargedSum);
+            vipCode = "";
+            isVipMode = false;
+            isBillUp = true;
         }
 
-        private void combineToDataset(decimal chargedSum)
+        //结账时和数据连接合并
+        private bool combineToDataset()
         {
             //添加到trade表
             DataTable tb_trade = dataset.Tables["trade"];
             DataRow row = tb_trade.NewRow();
             row["users_id"] = 0;
-            row["trade_amount"] = chargedSum;
-            row["vip_code"] = DBNull.Value;
+            row["trade_amount"] = sumFinal;
+            if (isVipMode)
+                row["vip_code"] = vipCode;
+            else
+                row["vip_code"] = DBNull.Value;
             row["trade_time"] = DateTime.Now.ToString();
             tb_trade.Rows.Add(row);
             tradeDataAdapter.Update(dataset,"trade");
+            //重新fill，因为id会自我更新
+            tradeDataAdapter.Fill(dataset, "trade");
+            int lastTrade_id = Convert.ToInt32(tb_trade.Rows[tb_trade.Rows.Count-1]["trade_id"]);
             //添加到sale表
-
+            DataTable tb_sale = dataset.Tables["sale"];
+            foreach (DataRow r in dt.Rows)
+            {
+                row = tb_sale.NewRow();
+                //查找s_id
+                int s_id;
+                DataRow[] rows = dataset.Tables["commodity"].Select("s_code = '" + r["条形码"] + "'");
+                if (rows.Count() == 1)
+                {
+                    s_id = Convert.ToInt32(rows[0]["s_id"]);
+                }
+                else
+                    return false;
+                row["s_id"] = s_id;
+                row["sale_count"] = r["数量"];
+                row["sale_amount"] = r["合计"];
+                row["trade_id"] = lastTrade_id;
+                tb_sale.Rows.Add(row);
+                saleDataAdapter.Update(dataset, "sale");
+                //重新fill，因为id会自我更新
+                saleDataAdapter.Fill(dataset, "sale");
+            }
             //添加到VIP表
+            if (isVipMode)
+            {
+                DataTable tb_vip = dataset.Tables["vip"];
+                DataRow[] rows =  tb_vip.Select("vip_code = '" + vipCode + "'");
+                if (rows.Count() == 1)
+                {
+                    decimal t = (decimal)rows[0]["purchase_sum"];
+                    rows[0]["purchase_sum"] = sumFinal+t;
+                }
+                else
+                    return false;
+                vipDataAdapter.Update(dataset, "vip");
+            }
+            return true;
         }
 
         public void deleteAll()
