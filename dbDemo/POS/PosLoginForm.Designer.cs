@@ -161,7 +161,7 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "功能选择";
             // 
-            // LoginForm
+            // PosLoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -178,7 +178,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "LoginForm";
+            this.Name = "PosLoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "POS系统登录窗口";
             this.groupBox1.ResumeLayout(false);

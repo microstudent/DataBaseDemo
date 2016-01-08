@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.Threading;
 
 namespace dbDemo
 {
-    public partial class PosLoginForm : Form
+    public partial class BgLoginForm : Form
     {
-
-        public PosLoginForm()
+        public BgLoginForm()
         {
             InitializeComponent();
-            init();            
+            init();
         }
 
         private void init()
@@ -31,12 +30,28 @@ namespace dbDemo
             login(tb_userName.Text, tb_password.Text);
         }
 
+
         private void bt_exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+        private void tb_userName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                tb_password.Focus();
+            }
+        }
 
-        private void login(string username,string pw)
+        private void tb_password_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                bt_login.PerformClick();
+            }
+        }
+
+        private void login(string username, string pw)
         {
             SqlConnectionStringBuilder sqlbuilder = new SqlConnectionStringBuilder();
             sqlbuilder.DataSource = cb_server_ip.Text;
@@ -49,7 +64,8 @@ namespace dbDemo
                 {
                     connection.ConnectionString = sqlbuilder.ConnectionString;
                     connection.Open();
-                }catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     MessageBox.Show("连接至服务器失败，请检查连接.", "连接错误");
                 }
@@ -67,7 +83,7 @@ namespace dbDemo
                 builder.Append("@users_name ");
                 builder.Append("and users_password = ");
                 builder.Append("@users_pw");
-                SqlParameter para1 = new SqlParameter("@users_name",SqlDbType.Char);
+                SqlParameter para1 = new SqlParameter("@users_name", SqlDbType.Char);
                 SqlParameter para2 = new SqlParameter("@users_pw", SqlDbType.Char);
 
                 para1.Value = username;
@@ -81,11 +97,12 @@ namespace dbDemo
                 if (null != cmd.ExecuteScalar())
                 {
                     //TODO 检查身份
-                    if (rb_cashier.Checked)
+                    if (rb_stock.Checked)
                     {
                         Thread ShowMainThread = new Thread(
-                        new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PosForm(username)); }));
+                        new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PurchaseForm(username)); }));
                         ShowMainThread.SetApartmentState(ApartmentState.STA);
+                        Connection.ServerIP = cb_server_ip.Text;
                         ShowMainThread.Start();
                         this.Close();
                         this.Dispose();
@@ -94,13 +111,13 @@ namespace dbDemo
                     {
                         //启动录入系统
                         Thread ShowMainThread = new Thread(
-                              new ThreadStart(delegate { System.Windows.Forms.Application.Run(new InputForm(username)); }));
+                              new ThreadStart(delegate { System.Windows.Forms.Application.Run(new UsersManagerForm(0)); }));
                         ShowMainThread.SetApartmentState(ApartmentState.STA);
+                        Connection.ServerIP = cb_server_ip.Text;
                         ShowMainThread.Start();
                         this.Close();
                         this.Dispose();
                     }
-
                 }
                 else
                 {
@@ -108,21 +125,6 @@ namespace dbDemo
                 }
             }
         }
-
-        private void tb_userName_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Enter)
-            {
-                tb_password.Focus();
-            }
-        }
-
-        private void tb_password_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                bt_login.PerformClick();
-            }
-        }
     }
+
 }

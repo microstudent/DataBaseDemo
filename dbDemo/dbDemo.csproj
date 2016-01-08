@@ -46,68 +46,103 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BillUpForm.cs">
+    <Compile Include="BG\BgLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BillUpForm.Designer.cs">
+    <Compile Include="BG\BgLoginForm.Designer.cs">
+      <DependentUpon>BgLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BG\PurchaseManager.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="POS\BillUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POS\BillUpForm.Designer.cs">
       <DependentUpon>BillUpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommodityForm.cs">
+    <Compile Include="POS\CommodityForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommodityForm.Designer.cs">
+    <Compile Include="POS\CommodityForm.Designer.cs">
       <DependentUpon>CommodityForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommodityManager.cs" />
-    <Compile Include="InputForm.cs">
+    <Compile Include="POS\CommodityManager.cs" />
+    <Compile Include="POS\InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputForm.Designer.cs">
+    <Compile Include="POS\InputForm.Designer.cs">
       <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InputManager.cs" />
-    <Compile Include="PosLoginForm.cs">
+    <Compile Include="POS\InputManager.cs" />
+    <Compile Include="POS\PosLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PosLoginForm.Designer.cs">
+    <Compile Include="POS\PosLoginForm.Designer.cs">
       <DependentUpon>PosLoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PasswordUtil.cs" />
-    <Compile Include="PosForm.cs">
+    <Compile Include="POS\PosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PosForm.Designer.cs">
+    <Compile Include="POS\PosForm.Designer.cs">
       <DependentUpon>PosForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PosManager.cs" />
+    <Compile Include="POS\PosManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SupplierForm.cs">
+    <Compile Include="BG\SaleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierForm.Designer.cs">
+    <Compile Include="BG\SaleForm.Designer.cs">
+      <DependentUpon>SaleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BG\PurchaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BG\PurchaseForm.Designer.cs">
+      <DependentUpon>PurchaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BG\StockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BG\StockForm.Designer.cs">
+      <DependentUpon>StockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POS\SupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POS\SupplierForm.Designer.cs">
       <DependentUpon>SupplierForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierManager.cs" />
-    <Compile Include="VipForm.cs">
+    <Compile Include="POS\SupplierManager.cs" />
+    <Compile Include="BG\UsersManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VipForm.Designer.cs">
+    <Compile Include="BG\UsersManagerForm.Designer.cs">
+      <DependentUpon>UsersManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POS\VipForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POS\VipForm.Designer.cs">
       <DependentUpon>VipForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="BillUpForm.resx">
+    <EmbeddedResource Include="BG\BgLoginForm.resx">
+      <DependentUpon>BgLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POS\BillUpForm.resx">
       <DependentUpon>BillUpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommodityForm.resx">
+    <EmbeddedResource Include="POS\CommodityForm.resx">
       <DependentUpon>CommodityForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputForm.resx">
+    <EmbeddedResource Include="POS\InputForm.resx">
       <DependentUpon>InputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PosLoginForm.resx">
+    <EmbeddedResource Include="POS\PosLoginForm.resx">
       <DependentUpon>PosLoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PosForm.resx">
+    <EmbeddedResource Include="POS\PosForm.resx">
       <DependentUpon>PosForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -119,10 +154,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SupplierForm.resx">
+    <EmbeddedResource Include="BG\SaleForm.resx">
+      <DependentUpon>SaleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BG\PurchaseForm.resx">
+      <DependentUpon>PurchaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BG\StockForm.resx">
+      <DependentUpon>StockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POS\SupplierForm.resx">
       <DependentUpon>SupplierForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VipForm.resx">
+    <EmbeddedResource Include="BG\UsersManagerForm.resx">
+      <DependentUpon>UsersManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POS\VipForm.resx">
       <DependentUpon>VipForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

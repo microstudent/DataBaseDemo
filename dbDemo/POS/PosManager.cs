@@ -42,15 +42,8 @@ namespace dbDemo
 
         private void connectToServer()
         {
-            //配置连接属性
-            SqlConnectionStringBuilder sqlbuilder = new SqlConnectionStringBuilder();
-            sqlbuilder.DataSource = "localhost";    //TODO
-            sqlbuilder.InitialCatalog = "PosDB";   //数据库名
-            sqlbuilder.IntegratedSecurity = true;
-
-            SqlConnection conn = new SqlConnection();
+            SqlConnection conn = Connection.getConnection();
             
-            conn.ConnectionString = sqlbuilder.ConnectionString;
             try
             {
                 conn.Open();
