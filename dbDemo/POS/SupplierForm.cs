@@ -48,7 +48,6 @@ namespace dbDemo
             ShowMainThread.SetApartmentState(ApartmentState.STA);
             ShowMainThread.Start();
             this.Close();
-            this.Dispose();
         }
 
         private void menu_commodity_Click(object sender, EventArgs e)
@@ -58,7 +57,6 @@ namespace dbDemo
             ShowMainThread.SetApartmentState(ApartmentState.STA);
             ShowMainThread.Start();
             this.Close();
-            this.Dispose();
         }
     }
 }

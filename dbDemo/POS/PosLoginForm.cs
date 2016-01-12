@@ -51,7 +51,7 @@ namespace dbDemo
                     connection.Open();
                 }catch(Exception e)
                 {
-                    MessageBox.Show("连接至服务器失败，请检查连接.", "连接错误");
+                    MessageBox.Show("连接至服务器失败，请检查连接。\n"+ e.ToString(), "连接错误");
                 }
 
                 if (connection.State != ConnectionState.Open)
@@ -78,29 +78,41 @@ namespace dbDemo
                 cmd.Parameters.Add(para1);
                 cmd.Parameters.Add(para2);
 
-                if (null != cmd.ExecuteScalar())
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    //TODO 检查身份
+                    //检查身份
+                    int userType = Convert.ToInt32(reader.GetValue(3));
+
                     if (rb_cashier.Checked)
                     {
+                        if (userType != 0 && userType != 3)
+                        {
+                            MessageBox.Show("权限不足");
+                            return;
+                        }
                         Thread ShowMainThread = new Thread(
                         new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PosForm(username)); }));
                         ShowMainThread.SetApartmentState(ApartmentState.STA);
                         ShowMainThread.Start();
                         Connection.ServerIP = cb_server_ip.Text;
                         this.Close();
-                        this.Dispose();
                     }
                     else
                     {
                         //启动录入系统
+                        if (userType != 1 && userType != 3)
+                        {
+                            MessageBox.Show("权限不足");
+                            return;
+                        }
                         Thread ShowMainThread = new Thread(
                               new ThreadStart(delegate { System.Windows.Forms.Application.Run(new InputForm(username)); }));
                         ShowMainThread.SetApartmentState(ApartmentState.STA);
                         ShowMainThread.Start();
                         Connection.ServerIP = cb_server_ip.Text;
                         this.Close();
-                        this.Dispose();
                     }
                 }
                 else

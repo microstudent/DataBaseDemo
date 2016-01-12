@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace dbDemo
 {
-    class CommodityManager
+    class CommodityManager:IDisposable
     {
         SqlDataAdapter dataAdapter;
         DataSet dataset;
@@ -78,6 +78,12 @@ namespace dbDemo
         {
             dataAdapter.Update(dataTable);
             dataTable.AcceptChanges();
+        }
+
+        public void Dispose()
+        {
+            dataset.Dispose();
+            dataAdapter.Dispose();
         }
     }
 }

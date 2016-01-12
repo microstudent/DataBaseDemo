@@ -67,7 +67,7 @@ namespace dbDemo
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("连接至服务器失败，请检查连接.", "连接错误");
+                    MessageBox.Show("连接至服务器失败，请检查连接.\n"+e.ToString(), "连接错误");
                 }
 
                 if (connection.State != ConnectionState.Open)
@@ -94,29 +94,38 @@ namespace dbDemo
                 cmd.Parameters.Add(para1);
                 cmd.Parameters.Add(para2);
 
-                if (null != cmd.ExecuteScalar())
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    //TODO 检查身份
+                    //检查身份
+                    int userType =Convert.ToInt32(reader.GetValue(3));
+
                     if (rb_stock.Checked)
                     {
-                        Thread ShowMainThread = new Thread(
-                        new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PurchaseForm(username)); }));
-                        ShowMainThread.SetApartmentState(ApartmentState.STA);
-                        Connection.ServerIP = cb_server_ip.Text;
-                        ShowMainThread.Start();
-                        this.Close();
-                        this.Dispose();
+                        if(userType!=2 && userType != 3)
+                        {
+                            MessageBox.Show("权限不足");
+                            return;
+                        }
+                        else
+                        {
+                            Thread ShowMainThread = new Thread(
+                                new ThreadStart(delegate { System.Windows.Forms.Application.Run(new PurchaseForm(username)); }));
+                            ShowMainThread.SetApartmentState(ApartmentState.STA);
+                            Connection.ServerIP = cb_server_ip.Text;
+                            ShowMainThread.Start();
+                            this.Close();
+                        }
                     }
                     else
                     {
-                        //启动录入系统
                         Thread ShowMainThread = new Thread(
-                              new ThreadStart(delegate { System.Windows.Forms.Application.Run(new UsersManagerForm(0)); }));
+                              new ThreadStart(delegate { System.Windows.Forms.Application.Run(new UsersManagerForm(userType)); }));
                         ShowMainThread.SetApartmentState(ApartmentState.STA);
                         Connection.ServerIP = cb_server_ip.Text;
                         ShowMainThread.Start();
                         this.Close();
-                        this.Dispose();
                     }
                 }
                 else

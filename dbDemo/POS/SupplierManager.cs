@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace dbDemo
 {
-    class SupplierManager
+    class SupplierManager:IDisposable
     {
         SqlDataAdapter supplierDataAdapter;
         DataSet dataset;        //临时数据库
@@ -71,6 +71,13 @@ namespace dbDemo
         {
             supplierDataAdapter.Update(dataTable);
             dataTable.AcceptChanges();
+        }
+
+        public void Dispose()
+        {
+            supplierDataAdapter.Dispose();
+            dataset.Dispose();
+            dataTable.Dispose();
         }
     }
 

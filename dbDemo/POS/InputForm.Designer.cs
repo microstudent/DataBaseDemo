@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                manager.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -118,7 +119,7 @@
             this.cb_supplier.Location = new System.Drawing.Point(126, 367);
             this.cb_supplier.Name = "cb_supplier";
             this.cb_supplier.Size = new System.Drawing.Size(177, 20);
-            this.cb_supplier.TabIndex = 27;
+            this.cb_supplier.TabIndex = 12;
             // 
             // label12
             // 
@@ -134,7 +135,7 @@
             this.bt_add.Location = new System.Drawing.Point(205, 412);
             this.bt_add.Name = "bt_add";
             this.bt_add.Size = new System.Drawing.Size(75, 23);
-            this.bt_add.TabIndex = 3;
+            this.bt_add.TabIndex = 13;
             this.bt_add.Text = "添加";
             this.bt_add.UseVisualStyleBackColor = true;
             this.bt_add.Click += new System.EventHandler(this.bt_add_Click);
@@ -144,7 +145,7 @@
             this.bt_reset.Location = new System.Drawing.Point(320, 412);
             this.bt_reset.Name = "bt_reset";
             this.bt_reset.Size = new System.Drawing.Size(75, 23);
-            this.bt_reset.TabIndex = 4;
+            this.bt_reset.TabIndex = 14;
             this.bt_reset.Text = "重置";
             this.bt_reset.UseVisualStyleBackColor = true;
             this.bt_reset.Click += new System.EventHandler(this.bt_reset_Click);
@@ -156,7 +157,7 @@
             this.panel2.Location = new System.Drawing.Point(126, 331);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(177, 30);
-            this.panel2.TabIndex = 25;
+            this.panel2.TabIndex = 11;
             // 
             // rb_sale_yes
             // 
@@ -187,7 +188,7 @@
             this.panel1.Location = new System.Drawing.Point(126, 205);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(177, 29);
-            this.panel1.TabIndex = 24;
+            this.panel1.TabIndex = 7;
             // 
             // rb_discount_yes
             // 
@@ -216,21 +217,21 @@
             this.tb_quan_planned.Location = new System.Drawing.Point(126, 302);
             this.tb_quan_planned.Name = "tb_quan_planned";
             this.tb_quan_planned.Size = new System.Drawing.Size(100, 21);
-            this.tb_quan_planned.TabIndex = 19;
+            this.tb_quan_planned.TabIndex = 10;
             // 
             // tb_quan_warning
             // 
             this.tb_quan_warning.Location = new System.Drawing.Point(126, 271);
             this.tb_quan_warning.Name = "tb_quan_warning";
             this.tb_quan_warning.Size = new System.Drawing.Size(100, 21);
-            this.tb_quan_warning.TabIndex = 18;
+            this.tb_quan_warning.TabIndex = 9;
             // 
             // tb_quan
             // 
             this.tb_quan.Location = new System.Drawing.Point(126, 240);
             this.tb_quan.Name = "tb_quan";
             this.tb_quan.Size = new System.Drawing.Size(100, 21);
-            this.tb_quan.TabIndex = 17;
+            this.tb_quan.TabIndex = 8;
             // 
             // label11
             // 
@@ -282,35 +283,35 @@
             this.dtp_end.Location = new System.Drawing.Point(126, 178);
             this.dtp_end.Name = "dtp_end";
             this.dtp_end.Size = new System.Drawing.Size(134, 21);
-            this.dtp_end.TabIndex = 11;
+            this.dtp_end.TabIndex = 6;
             // 
             // dtp_start
             // 
             this.dtp_start.Location = new System.Drawing.Point(126, 147);
             this.dtp_start.Name = "dtp_start";
             this.dtp_start.Size = new System.Drawing.Size(134, 21);
-            this.dtp_start.TabIndex = 10;
+            this.dtp_start.TabIndex = 5;
             // 
             // tb_pro_price
             // 
             this.tb_pro_price.Location = new System.Drawing.Point(126, 116);
             this.tb_pro_price.Name = "tb_pro_price";
             this.tb_pro_price.Size = new System.Drawing.Size(100, 21);
-            this.tb_pro_price.TabIndex = 9;
+            this.tb_pro_price.TabIndex = 4;
             // 
             // tb_code
             // 
             this.tb_code.Location = new System.Drawing.Point(126, 85);
             this.tb_code.Name = "tb_code";
             this.tb_code.Size = new System.Drawing.Size(194, 21);
-            this.tb_code.TabIndex = 8;
+            this.tb_code.TabIndex = 3;
             // 
             // tb_price
             // 
             this.tb_price.Location = new System.Drawing.Point(126, 54);
             this.tb_price.Name = "tb_price";
             this.tb_price.Size = new System.Drawing.Size(100, 21);
-            this.tb_price.TabIndex = 7;
+            this.tb_price.TabIndex = 2;
             // 
             // label6
             // 

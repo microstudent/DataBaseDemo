@@ -22,7 +22,7 @@ namespace dbDemo
             //Application.Run(new InputForm());
             //Application.Run(new SupplierForm());
             //Application.Run(new CommodityForm());
-            Application.Run(new BgLoginForm());
+            Application.Run(new ChoiceForm());
             
         }
     }

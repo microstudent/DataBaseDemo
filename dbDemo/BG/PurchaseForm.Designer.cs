@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                manager.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -29,39 +30,39 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.bt_reset = new System.Windows.Forms.Button();
+            this.bt_add = new System.Windows.Forms.Button();
+            this.tb_price = new System.Windows.Forms.TextBox();
+            this.dtp_arr_time = new System.Windows.Forms.DateTimePicker();
+            this.dtp_stock_time = new System.Windows.Forms.DateTimePicker();
+            this.tb_quantity_planned = new System.Windows.Forms.TextBox();
+            this.tb_s_name = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menu_purchase = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_sale = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_stock = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.dateTimePicker2);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.bt_reset);
+            this.groupBox1.Controls.Add(this.bt_add);
+            this.groupBox1.Controls.Add(this.tb_price);
+            this.groupBox1.Controls.Add(this.dtp_arr_time);
+            this.groupBox1.Controls.Add(this.dtp_stock_time);
+            this.groupBox1.Controls.Add(this.tb_quantity_planned);
+            this.groupBox1.Controls.Add(this.tb_s_name);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
@@ -74,59 +75,61 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "修改进货信息";
             // 
-            // button2
+            // bt_reset
             // 
-            this.button2.Location = new System.Drawing.Point(224, 308);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "重置";
-            this.button2.UseVisualStyleBackColor = true;
+            this.bt_reset.Location = new System.Drawing.Point(224, 308);
+            this.bt_reset.Name = "bt_reset";
+            this.bt_reset.Size = new System.Drawing.Size(75, 23);
+            this.bt_reset.TabIndex = 11;
+            this.bt_reset.Text = "重置";
+            this.bt_reset.UseVisualStyleBackColor = true;
+            this.bt_reset.Click += new System.EventHandler(this.bt_reset_Click);
             // 
-            // button1
+            // bt_add
             // 
-            this.button1.Location = new System.Drawing.Point(34, 308);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "提交";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bt_add.Location = new System.Drawing.Point(34, 308);
+            this.bt_add.Name = "bt_add";
+            this.bt_add.Size = new System.Drawing.Size(75, 23);
+            this.bt_add.TabIndex = 10;
+            this.bt_add.Text = "提交";
+            this.bt_add.UseVisualStyleBackColor = true;
+            this.bt_add.Click += new System.EventHandler(this.bt_add_Click);
             // 
-            // textBox3
+            // tb_price
             // 
-            this.textBox3.Location = new System.Drawing.Point(130, 138);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 21);
-            this.textBox3.TabIndex = 9;
+            this.tb_price.Location = new System.Drawing.Point(130, 138);
+            this.tb_price.Name = "tb_price";
+            this.tb_price.Size = new System.Drawing.Size(100, 21);
+            this.tb_price.TabIndex = 9;
             // 
-            // dateTimePicker2
+            // dtp_arr_time
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(130, 240);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 21);
-            this.dateTimePicker2.TabIndex = 8;
+            this.dtp_arr_time.Location = new System.Drawing.Point(130, 240);
+            this.dtp_arr_time.Name = "dtp_arr_time";
+            this.dtp_arr_time.Size = new System.Drawing.Size(128, 21);
+            this.dtp_arr_time.TabIndex = 8;
             // 
-            // dateTimePicker1
+            // dtp_stock_time
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(130, 189);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 21);
-            this.dateTimePicker1.TabIndex = 7;
+            this.dtp_stock_time.Location = new System.Drawing.Point(130, 189);
+            this.dtp_stock_time.Name = "dtp_stock_time";
+            this.dtp_stock_time.Size = new System.Drawing.Size(128, 21);
+            this.dtp_stock_time.TabIndex = 7;
             // 
-            // textBox2
+            // tb_quantity_planned
             // 
-            this.textBox2.Location = new System.Drawing.Point(130, 87);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 21);
-            this.textBox2.TabIndex = 6;
+            this.tb_quantity_planned.Location = new System.Drawing.Point(130, 87);
+            this.tb_quantity_planned.Name = "tb_quantity_planned";
+            this.tb_quantity_planned.Size = new System.Drawing.Size(100, 21);
+            this.tb_quantity_planned.TabIndex = 6;
             // 
-            // textBox1
+            // tb_s_name
             // 
-            this.textBox1.Location = new System.Drawing.Point(130, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
-            this.textBox1.TabIndex = 5;
+            this.tb_s_name.Location = new System.Drawing.Point(130, 36);
+            this.tb_s_name.Name = "tb_s_name";
+            this.tb_s_name.ReadOnly = true;
+            this.tb_s_name.Size = new System.Drawing.Size(100, 21);
+            this.tb_s_name.TabIndex = 5;
             // 
             // label5
             // 
@@ -173,18 +176,23 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "计划进货数量*：";
             // 
-            // dataGridView1
+            // dgv
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 20);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(361, 332);
-            this.dataGridView1.TabIndex = 2;
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Location = new System.Drawing.Point(6, 20);
+            this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
+            this.dgv.RowTemplate.Height = 23;
+            this.dgv.Size = new System.Drawing.Size(361, 332);
+            this.dgv.TabIndex = 2;
+            this.dgv.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEnter);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dataGridView1);
+            this.groupBox2.Controls.Add(this.dgv);
             this.groupBox2.Location = new System.Drawing.Point(370, 28);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(373, 358);
@@ -232,11 +240,13 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "PurchaseForm";
             this.Text = "PurchaseForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -247,19 +257,19 @@
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button bt_reset;
+        private System.Windows.Forms.Button bt_add;
+        private System.Windows.Forms.TextBox tb_price;
+        private System.Windows.Forms.DateTimePicker dtp_arr_time;
+        private System.Windows.Forms.DateTimePicker dtp_stock_time;
+        private System.Windows.Forms.TextBox tb_quantity_planned;
+        private System.Windows.Forms.TextBox tb_s_name;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripMenuItem menu_purchase;
         private System.Windows.Forms.ToolStripMenuItem menu_sale;

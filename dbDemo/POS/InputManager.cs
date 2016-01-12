@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace dbDemo
 {
-    class InputManager
+    class InputManager:IDisposable
     {
         public class NewItemArgs
         {
@@ -157,6 +157,13 @@ namespace dbDemo
             }
             dataTable.Rows.Add(row);
             return false;
+        }
+
+        public void Dispose()
+        {
+            dataTable.Dispose();
+            dataset.Dispose();
+            commodityDataAdapter.Dispose();
         }
     }
 }

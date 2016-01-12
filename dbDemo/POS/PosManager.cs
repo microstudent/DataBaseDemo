@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace dbDemo
 {
-    class PosManager
+    class PosManager:IDisposable
     {
         public delegate void DataChangedEventHandler(Object sender, DataChangedEventArgs e);
         public event DataChangedEventHandler dataChanged;
@@ -51,6 +51,7 @@ namespace dbDemo
                 tradeDataAdapter = new SqlDataAdapter("SELECT * FROM tb_trade", conn);
                 saleDataAdapter = new SqlDataAdapter("SELECT * FROM tb_sale", conn);
                 vipDataAdapter = new SqlDataAdapter("SELECT * FROM tb_vip", conn);
+
                 //先获取所有商品信息填充到dataset去
                 SqlCommand cmd = new SqlCommand("SELECT * FROM view_commodity_cashier", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -87,6 +88,7 @@ namespace dbDemo
                 SqlCommandBuilder cmdBuilder1 = new SqlCommandBuilder(tradeDataAdapter);
                 SqlCommandBuilder cmdBuilder2 = new SqlCommandBuilder(saleDataAdapter);
                 SqlCommandBuilder cmdBuilder3 = new SqlCommandBuilder(vipDataAdapter);
+                SqlCommandBuilder cmdBuilder4 = new SqlCommandBuilder(shoplistAdapter);
 
             }
             catch (Exception e)
@@ -125,12 +127,13 @@ namespace dbDemo
 
         public class DataChangedEventArgs : EventArgs
         {
-            public readonly string billSum,Fav,billFinal;
-            public DataChangedEventArgs(string billSum, string Fav, string billFinal)
+            public readonly string billSum,Fav,billFinal,count;
+            public DataChangedEventArgs(string billSum, string Fav, string billFinal,string count)
             {
                 this.billSum = billSum;
                 this.Fav = Fav;
                 this.billFinal = billFinal;
+                this.count = count;
             }
         }
         //通知已经完成结账操作
@@ -169,7 +172,7 @@ namespace dbDemo
                     }
                     sumFinal = sum - fav;
                 }
-                DataChangedEventArgs e = new DataChangedEventArgs(sum.ToString(), fav.ToString(), sumFinal.ToString());
+                DataChangedEventArgs e = new DataChangedEventArgs(sum.ToString(), fav.ToString(), sumFinal.ToString(),count.ToString());
                 dataChanged(this, e);
             }
         }
@@ -198,8 +201,17 @@ namespace dbDemo
                     {
                         return false;
                     }
-                    //TODO  不允许打折
-                    newRow(code, result[0]["s_name"].ToString(), (decimal)(result[0]["s_price"]), 1);
+                    //检查打折
+                    if(Convert.ToBoolean(result[0]["is_discount"]) == true)
+                    {
+                        newRow(code, result[0]["s_name"].ToString(), (decimal)(result[0]["s_pro_price"]), 1);
+                        count += 1;
+                    }
+                    else
+                    {
+                        newRow(code, result[0]["s_name"].ToString(), (decimal)(result[0]["s_price"]), 1);
+                        count += 1;
+                    }
                 }
             }else if(mat.Groups.Count == 3)
             {
@@ -211,13 +223,28 @@ namespace dbDemo
                 }
                 else
                 {
-                    newRow(result[0]["s_code"].ToString(), result[0]["s_name"].ToString(), (decimal)result[0]["s_price"], Convert.ToInt32(mat.Groups[1].Value));
+                    if (Convert.ToBoolean(result[0]["is_allow_sale"]) == false)//不允许销售
+                    {
+                        return false;
+                    }
+                    //检查打折
+                    if (Convert.ToBoolean(result[0]["is_discount"]) == true)
+                    {
+                        newRow(mat.Groups[2].Value, result[0]["s_name"].ToString(), (decimal)(result[0]["s_pro_price"]), Convert.ToInt32(mat.Groups[1].Value));
+                        count += Convert.ToInt32(mat.Groups[1].Value);
+                    }
+                    else
+                    {
+                        newRow(mat.Groups[2].Value, result[0]["s_name"].ToString(), (decimal)(result[0]["s_price"]), Convert.ToInt32(mat.Groups[1].Value));
+                        count += Convert.ToInt32(mat.Groups[1].Value);
+                    }
                 }
             }
             else
             {
                 return false;
             }
+            onDataChanged();
             return true;
         }
 
@@ -292,6 +319,7 @@ namespace dbDemo
         public void deleteAll()
         {
             dt.Rows.Clear();
+            count = 0;
             onDataChanged();
         }
 
@@ -303,7 +331,14 @@ namespace dbDemo
 
         private void newRow(string code,string name,decimal price,int count)
         {
-            //TODO  相同项可以合并
+            //  相同项可以合并
+            DataRow[] rows =  dt.Select("条形码 = '" + code + "'");
+            if (rows.Count() == 1)
+            {
+                int t = Convert.ToInt32(rows[0]["数量"]);
+                rows[0]["数量"] = count + t;
+                return;
+            }
             DataRow row = dt.NewRow();
             row["条形码"] = code;
             row["商品名"] = name;
@@ -311,7 +346,15 @@ namespace dbDemo
             row["数量"] = count;
             row["合计"] = price * count;
             dt.Rows.Add(row);
-            onDataChanged();
+        }
+
+        public void Dispose()
+        {
+            dt.Dispose();
+            tradeDataAdapter.Dispose();
+            saleDataAdapter.Dispose();
+            vipDataAdapter.Dispose();
+            dataset.Dispose();
         }
     }
 }

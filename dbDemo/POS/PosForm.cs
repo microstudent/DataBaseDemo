@@ -45,6 +45,7 @@ namespace dbDemo
             tb_sum.Text = e.billSum;
             tb_sumFinal1.Text = e.billFinal;
             tb_fav.Text = e.Fav;
+            tb_count.Text = e.count;
         }
 
         private void PosForm_KeyDown(object sender, KeyEventArgs e)
@@ -159,7 +160,6 @@ namespace dbDemo
             ShowMainThread.SetApartmentState(ApartmentState.STA);
             ShowMainThread.Start();
             this.Close();
-            this.Dispose();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

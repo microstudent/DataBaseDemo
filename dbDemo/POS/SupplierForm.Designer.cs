@@ -15,6 +15,7 @@
         {
             if (disposing && (components != null))
             {
+                manager.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -75,7 +76,7 @@
             this.bt_reset.Location = new System.Drawing.Point(180, 212);
             this.bt_reset.Name = "bt_reset";
             this.bt_reset.Size = new System.Drawing.Size(75, 23);
-            this.bt_reset.TabIndex = 7;
+            this.bt_reset.TabIndex = 5;
             this.bt_reset.Text = "重置";
             this.bt_reset.UseVisualStyleBackColor = true;
             // 
@@ -84,7 +85,7 @@
             this.bt_add.Location = new System.Drawing.Point(52, 213);
             this.bt_add.Name = "bt_add";
             this.bt_add.Size = new System.Drawing.Size(75, 23);
-            this.bt_add.TabIndex = 6;
+            this.bt_add.TabIndex = 4;
             this.bt_add.Text = "增加";
             this.bt_add.UseVisualStyleBackColor = true;
             this.bt_add.Click += new System.EventHandler(this.bt_add_Click);
@@ -94,21 +95,21 @@
             this.tb_supplier_phone.Location = new System.Drawing.Point(114, 129);
             this.tb_supplier_phone.Name = "tb_supplier_phone";
             this.tb_supplier_phone.Size = new System.Drawing.Size(205, 21);
-            this.tb_supplier_phone.TabIndex = 5;
+            this.tb_supplier_phone.TabIndex = 3;
             // 
             // tb_supplier_addr
             // 
             this.tb_supplier_addr.Location = new System.Drawing.Point(114, 83);
             this.tb_supplier_addr.Name = "tb_supplier_addr";
             this.tb_supplier_addr.Size = new System.Drawing.Size(205, 21);
-            this.tb_supplier_addr.TabIndex = 4;
+            this.tb_supplier_addr.TabIndex = 2;
             // 
             // tb_supplier_name
             // 
             this.tb_supplier_name.Location = new System.Drawing.Point(114, 37);
             this.tb_supplier_name.Name = "tb_supplier_name";
             this.tb_supplier_name.Size = new System.Drawing.Size(205, 21);
-            this.tb_supplier_name.TabIndex = 3;
+            this.tb_supplier_name.TabIndex = 1;
             // 
             // label3
             // 

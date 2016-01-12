@@ -15,6 +15,7 @@
         {
             if (disposing && (components != null))
             {
+                manager.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -397,7 +398,6 @@
         private System.Windows.Forms.Button bt_vip;
         private System.Windows.Forms.Button bt_exit;
         private System.Windows.Forms.Button bt_logout;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel_username;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel_time;
